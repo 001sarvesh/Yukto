@@ -102,45 +102,38 @@ if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Get form data
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            company: document.getElementById('company').value,
-            message: document.getElementById('message').value
-        };
-
-        // Validate form
-        if (!validateForm(formData)) {
-            showFormMessage('Please fill in all required fields correctly.', 'error');
-            return;
-        }
-
         // Disable submit button
         const submitBtn = contactForm.querySelector('.btn-submit');
         const originalBtnText = submitBtn.querySelector('span').textContent;
         submitBtn.disabled = true;
         submitBtn.querySelector('span').textContent = 'Sending...';
 
-        // Simulate form submission (replace with actual API call)
+        // Send form using Web3Forms
         try {
-            // In production, replace this with your actual form submission logic
-            // Example: await fetch('/api/contact', { method: 'POST', body: JSON.stringify(formData) });
+            const formData = new FormData(contactForm);
 
-            await simulateFormSubmission(formData);
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            });
 
-            // Show success message
-            showFormMessage('Thank you! We\'ll get back to you within 24 hours.', 'success');
+            const data = await response.json();
 
-            // Reset form
-            contactForm.reset();
+            if (data.success) {
+                // Show success message
+                showFormMessage('Thank you! We\'ll get back to you within 24 hours.', 'success');
 
-            // Log to console (for demo purposes)
-            console.log('Form submitted:', formData);
+                // Reset form
+                contactForm.reset();
+
+                // Log to console (for confirmation)
+                console.log('Form submitted successfully');
+            } else {
+                throw new Error('Form submission failed');
+            }
 
         } catch (error) {
-            showFormMessage('Oops! Something went wrong. Please try again or email us directly at hello@yukto.co', 'error');
+            showFormMessage('Oops! Something went wrong. Please try again or email us directly at helloyukto.co@gmail.com', 'error');
             console.error('Form submission error:', error);
         } finally {
             // Re-enable submit button
@@ -148,28 +141,6 @@ if (contactForm) {
             submitBtn.querySelector('span').textContent = originalBtnText;
         }
     });
-}
-
-// Form validation function
-function validateForm(data) {
-    // Check required fields
-    if (!data.name || !data.email || !data.phone || !data.message) {
-        return false;
-    }
-
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-        return false;
-    }
-
-    // Validate phone (basic check)
-    const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/;
-    if (!phoneRegex.test(data.phone.replace(/\s/g, ''))) {
-        return false;
-    }
-
-    return true;
 }
 
 // Show form message
@@ -186,17 +157,6 @@ function showFormMessage(message, type) {
     }, 5000);
 }
 
-// Simulate form submission (for demo)
-function simulateFormSubmission(data) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            // In production, this would be an actual API call
-            // For now, we'll just log the data and resolve
-            console.log('Simulating form submission with data:', data);
-            resolve();
-        }, 1500);
-    });
-}
 
 // ========================================
 // Input Field Interactions
@@ -428,7 +388,7 @@ window.addEventListener('load', () => {
 
 console.log('%c👋 Hey there!', 'font-size: 24px; font-weight: bold; color: #3b82f6;');
 console.log('%c🚀 Looking to automate your business?', 'font-size: 16px; color: #8b5cf6;');
-console.log('%cLet\'s talk: hello@yukto.co', 'font-size: 14px; color: #64748b;');
+console.log('%cLet\'s talk: helloyukto.co@gmail.com', 'font-size: 14px; color: #64748b;');
 
 // ========================================
 // Form Field Auto-Format (Phone Number)
