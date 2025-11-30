@@ -133,7 +133,7 @@ if (contactForm) {
             }
 
         } catch (error) {
-            showFormMessage('Oops! Something went wrong. Please try again or email us directly at helloyukto.co@gmail.com', 'error');
+            showFormMessage('Oops! Something went wrong. Please try again or email us directly at yukto.in@gmail.com', 'error');
             console.error('Form submission error:', error);
         } finally {
             // Re-enable submit button
@@ -388,7 +388,7 @@ window.addEventListener('load', () => {
 
 console.log('%c👋 Hey there!', 'font-size: 24px; font-weight: bold; color: #3b82f6;');
 console.log('%c🚀 Looking to automate your business?', 'font-size: 16px; color: #8b5cf6;');
-console.log('%cLet\'s talk: helloyukto.co@gmail.com', 'font-size: 14px; color: #64748b;');
+console.log('%cLet\'s talk: yukto.in@gmail.com', 'font-size: 14px; color: #64748b;');
 
 // ========================================
 // Form Field Auto-Format (Phone Number)
